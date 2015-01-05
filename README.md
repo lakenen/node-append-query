@@ -32,6 +32,14 @@ appendQuery('http://example.com/', { beep: 'boop' })
 npm test
 ```
 
+
+## Change Log
+
+* **1.1.0**
+  - add support for recursive serialization of nested objects
+  - add support for arrays as properties
+
+
 ## License
 
 ([The MIT License](LICENSE))
