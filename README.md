@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lakenen/node-append-query.png?branch=master)](https://travis-ci.org/lakenen/node-append-query)
+
 # append-query
 
 Append querystring params to a URL.
