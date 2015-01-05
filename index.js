@@ -13,13 +13,24 @@ module.exports = function appendQuery(uri, q) {
 // serialize an object recursively
 function serialize(obj, prefix) {
   var str = []
+    , useArraySyntax = false
+
+  // if there's a prefix, and this object is an array, use array syntax
+  // i.e., `prefix[]=foo&prefix[]=bar` instead of `prefix[0]=foo&prefix[1]=bar`
+  if (Array.isArray(obj) && prefix) {
+    useArraySyntax = true
+  }
 
   Object.keys(obj).forEach(function (prop) {
-    var val = obj[prop]
-      , key = prefix ? prefix + '[' + prop + ']' : prop
-      , query = typeof val === 'object' ?
-        serialize(val, key) :
-        encodeURIComponent(key) + '=' + encodeURIComponent(val)
+    var key, query, val = obj[prop]
+
+    key = prefix ?
+      prefix + '[' + (useArraySyntax ? '' : prop) + ']' :
+      prop
+
+    query = typeof val === 'object' ?
+      serialize(val, key) :
+      encodeURIComponent(key) + '=' + encodeURIComponent(val)
 
     str.push(query)
   })
