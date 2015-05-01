@@ -2,16 +2,17 @@ var querystring = require('querystring')
   , extend = require('extend')
   , url = require('url')
 
-module.exports = function appendQuery(uri, q) {
+module.exports = function appendQuery(uri, q, opts) {
   var parts = url.parse(uri, true)
     , parsedQuery = extend(true, {}, parts.query, typeof q === 'string' ? querystring.parse(q) : q)
+    , opts = opts ? opts : { encodeComponents: true };
 
-  parts.search = '?' + serialize(parsedQuery)
+  parts.search = '?' + serialize(parsedQuery, opts)
   return url.format(parts)
 }
 
 // serialize an object recursively
-function serialize(obj, prefix) {
+function serialize(obj, opts, prefix) {
   var str = []
     , useArraySyntax = false
 
@@ -29,8 +30,10 @@ function serialize(obj, prefix) {
       prop
 
     query = typeof val === 'object' ?
-      serialize(val, key) :
-      encodeURIComponent(key) + '=' + encodeURIComponent(val)
+      serialize(val, opts, key) :
+      opts.encodeComponents ?
+        encodeURIComponent(key) + '=' + encodeURIComponent(val) :
+        key + '=' + val;
 
     str.push(query)
   })
