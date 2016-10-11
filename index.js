@@ -2,12 +2,21 @@ var querystring = require('querystring')
   , extend = require('extend')
   , url = require('url')
 
+module.defaults = {
+  encodeComponents: true
+  , removeNull: false
+}
+
 module.exports = function appendQuery(uri, q, opts) {
   var parts = url.parse(uri, true)
-    , parsedQuery = extend(true, {}, parts.query, typeof q === 'string' ? querystring.parse(q) : q)
-    , opts = opts ? opts : { encodeComponents: true };
+    , originalQuery = parts.query
+    , queryToAppend = typeof q === 'string' ? querystring.parse(q) : q
+    , parsedQuery = extend(true, {}, parts.query, queryToAppend)
+    , opts = extend({}, module.defaults, opts || {});
 
-  parts.search = '?' + serialize(parsedQuery, opts)
+  parts.query = null
+  queryString = serialize(parsedQuery, opts)
+  parts.search = queryString ? '?' + queryString : null
   return url.format(parts)
 }
 
@@ -29,12 +38,18 @@ function serialize(obj, opts, prefix) {
       prefix + '[' + (useArraySyntax ? '' : prop) + ']' :
       prop
 
-    query = typeof val === 'object' ?
-      serialize(val, opts, key) :
-      opts.encodeComponents ?
+    if (val === null) {
+      if (opts.removeNull) {
+        return
+      }
+      query = opts.encodeComponents ? encodeURIComponent(key) : key
+    } else if (typeof val === 'object') {
+      query = serialize(val, opts, key)
+    } else {
+      query = opts.encodeComponents ?
         encodeURIComponent(key) + '=' + encodeURIComponent(val) :
         key + '=' + val;
-
+    }
     str.push(query)
   })
 
