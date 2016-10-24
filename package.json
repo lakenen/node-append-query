@@ -1,6 +1,6 @@
 {
   "name": "append-query",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Append querystring params to a URL.",
   "main": "index.js",
   "scripts": {

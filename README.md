@@ -54,6 +54,9 @@ npm test
 
 ## Change Log
 
+
+* **2.0.1**
+  - fix typo
 * **2.0.0**
   - fix [#5](https://github.com/lakenen/node-append-query/issues/5)
   - add options: `encodeComponents` and `removeNull`
