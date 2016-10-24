@@ -15,7 +15,7 @@ module.exports = function appendQuery(uri, q, opts) {
     , opts = extend({}, module.defaults, opts || {});
 
   parts.query = null
-  queryString = serialize(parsedQuery, opts)
+  var queryString = serialize(parsedQuery, opts)
   parts.search = queryString ? '?' + queryString : null
   return url.format(parts)
 }
