@@ -55,6 +55,8 @@ npm test
 ## Change Log
 
 
+* **2.1.0**
+  - [#9](https://github.com/lakenen/node-append-query/pull/9) upgrade extend dependency to `^2.0.0`
 * **2.0.1**
   - fix typo
 * **2.0.0**
