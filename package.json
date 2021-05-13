@@ -28,9 +28,9 @@
     "append"
   ],
   "dependencies": {
-    "extend": "^2.0.0"
+    "extend": "^3.0.2"
   },
   "devDependencies": {
-    "tape": "^2.13.4"
+    "tape": "^5.2.2"
   }
 }
